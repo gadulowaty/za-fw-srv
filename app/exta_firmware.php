@@ -86,6 +86,7 @@ class ExtaFirmware extends ExtaContext
                 ExtaTool::OutOut( "Fetched '%s', version=%s, size=%d byte(s) with result %s\n", $aFwEntry[ "device" ], $aFwEntry[ "version" ][ "str" ], $aFwEntry[ "size" ], ( $bResult ? "SUCCESS" : "ERROR" ) );
             }
             ExtaTool::OutOut( "Found %d item(s)\n", count( $aFwList ) );
+            ExtaTool::OutOut( "Rebuilding index\n" );
             $this->GetRepo()->IndexRebuild();
         }
         else
