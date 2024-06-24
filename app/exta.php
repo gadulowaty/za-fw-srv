@@ -52,7 +52,7 @@ class ExtaApp
 
     private static function GetDefaultRepo( array $options, string $repo_def ) : string
     {
-        $hostname = isset( $_SERVER[ "REMOTE_ADDR" ] ) ? $_SERVER["REMOTE_ADDR"] : gethostbyaddr(gethostbyname(gethostname()));
+        $hostname = $_SERVER[ "REMOTE_ADDR" ] ?? gethostbyaddr( gethostbyname( gethostname() ) );
         foreach( ExtaTool::VarReadArr( $options, "repo_default" ) as $ipaddr => $repo_name )
         {
             if( strcasecmp( $hostname, $ipaddr ) == 0 )
@@ -65,7 +65,7 @@ class ExtaApp
 
     public function Welcome( string $context = "" ) : void
     {
-        $hostname = isset( $_SERVER[ "REMOTE_ADDR" ] ) ? $_SERVER["REMOTE_ADDR"] : gethostbyaddr(gethostbyname(gethostname()));
+        $hostname = $_SERVER[ "REMOTE_ADDR" ] ?? gethostbyaddr( gethostbyname( gethostname() ) );
         if( $context != "" )
         {
             $context .= " ";

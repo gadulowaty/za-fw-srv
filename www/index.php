@@ -22,8 +22,6 @@ if( isset( $_GET[ "__repo" ] ) )
 else
     $sysRepo = EXTA_DEFAULT_REPO;
 
-# die("dispatch path='$svcPath', resource='$svcResource'");
-
 $extaApp = ExtaApp::GetApp( $sysRepo );
 if( isset( $svcPath ) )
 {
