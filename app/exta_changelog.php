@@ -294,7 +294,12 @@ class ExtaChangelog extends ExtaContext
 
     private function HandleJson()
     {
-        $filename = $this->GetFilename( $this->_opts->ReadStr( "channel" ) );
+        $channel = $this->_opts->ReadStr( "channel" );
+        if( ( strcasecmp($channel, "release") != 0 ) && ( strcasecmp( $channel, "beta") != 0 ) )
+        {
+            $channel = "";
+        }
+        $filename = $this->GetFilename( $channel );
         if( file_exists( $filename ) )
         {
             echo file_get_contents( $filename );
