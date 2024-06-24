@@ -126,7 +126,7 @@ class ExtaFirmware extends ExtaContext
 
     private function HandlePrint() : bool
     {
-        $aTable = new ExtaTab( [ [ 3, "r" ], [ 7, "c" ], [ 8, "r" ], [ 15, "r" ], [ 32, "l" ] ], "" );
+        $aTable = new ExtaTab( [ [ 3, "r" ], [ 7, "c" ], [ 8, "r" ], [ 15, "r" ], [ 24, "c" ], [ 12, "c" ] ], "" );
 
         $repo = $this->GetRepo();
 
@@ -134,17 +134,19 @@ class ExtaFirmware extends ExtaContext
         $this->_app->Welcome( "Firmware" );
         $output = sprintf( "Repository in use '%s'\n", $repo->GetName() );
         $output .= $aTable->GetHLine( EXTAB_LINE_TOP ) . "\n";
-        $output .= $aTable->GetHLine( [ "Id", "Device", "Size", "Version", "Source" ] ) . "\n";
+        $output .= $aTable->GetHLine( [ "Id", "Device", "Size", "Version", "Source", "Changelog" ] ) . "\n";
         $output .= $aTable->GetHLine( EXTAB_LINE_MID ) . "\n";
         $i = 0;
         foreach( $aFwList as $oFwItem )
         {
             $name = basename( $oFwItem->GetFileName() );
+            $info = "Info";
             if( !ExtaTool::IsConsole() )
             {
                 $name = [ $name, "<a href='" . sprintf( "/firmware/?repo=%s&file=%s", $repo->GetName(), $name ) . "'>$name</a>" ];
+                $info = [ $info, "<a href='" . sprintf( "/changelog/?device=%s", $oFwItem->GetDevice() ) . "'>$info</a>" ];
             }
-            $output .= $aTable->GetILine( [ ++$i, $oFwItem->GetDevice(), $oFwItem->GetSize(), $oFwItem->GetVersionStr(), $name ] ) . "\n";
+            $output .= $aTable->GetILine( [ ++$i, $oFwItem->GetDevice(), $oFwItem->GetSize(), $oFwItem->GetVersionStr(), $name, $info ] ) . "\n";
         }
         $output .= $aTable->GetHLine( EXTAB_LINE_BOT ) . "\n";
 
@@ -207,14 +209,14 @@ class ExtaFirmware extends ExtaContext
             if( file_exists( $filename ) )
             {
                 $data = file_get_contents( $filename );
-                if( $this->_opts->Exists("text"))
+                if( $this->_opts->Exists( "text" ) )
                 {
                     ExtaTool::OutBuffer( $data );
                 }
                 else
                 {
-                    header("Content-Type: application/octet-stream");
-                    header("Content-Disposition: attachment; filename=\"$file\"");
+                    header( "Content-Type: application/octet-stream" );
+                    header( "Content-Disposition: attachment; filename=\"$file\"" );
                     echo $data;
                 }
                 return true;
