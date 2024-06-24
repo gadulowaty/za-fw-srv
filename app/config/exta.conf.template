@@ -1,0 +1,10 @@
+<?php
+
+
+$_EXTA_CONF = [
+    "apikey" => "",
+    "zamel_user" => "",
+    "zamel_pass" => "",
+    "repo_default" => [ "ipaddr" => "repo_name" ],
+    "cache_max"=> 3600,
+];

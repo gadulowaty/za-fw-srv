@@ -1,0 +1,13 @@
+Options -MultiViews
+
+php_value display_errors on
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (.*)/(.*)$ index.php?__path=$1&__repo=$2 [QSA,L,NC]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule (.*)$ index.php?__path=$1&__repo= [QSA,L,NC]
