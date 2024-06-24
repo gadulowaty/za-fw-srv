@@ -126,7 +126,7 @@ class ExtaFirmware extends ExtaContext
 
     private function HandlePrint() : bool
     {
-        $aTable = new ExtaTab( [ [ 3, "r" ], [ 7, "c" ], [ 8, "r" ], [ 15, "r" ], [ 24, "c" ], [ 12, "c" ] ], "" );
+        $aTable = new ExtaTab( [ [ 3, "r" ], [ 7, "c" ], [ 8, "r" ], [ 15, "r" ], [ 24, "c" ], [ 12, "c" ], [12, "c"] ], "" );
 
         $repo = $this->GetRepo();
 
@@ -134,24 +134,29 @@ class ExtaFirmware extends ExtaContext
         $this->_app->Welcome( "Firmware" );
         $output = sprintf( "Repository in use '%s'\n", $repo->GetName() );
         $output .= $aTable->GetHLine( EXTAB_LINE_TOP ) . "\n";
-        $output .= $aTable->GetHLine( [ "Id", "Device", "Size", "Version", "Source", "Changelog" ] ) . "\n";
+        $output .= $aTable->GetHLine( [ "Id", "Device", "Size", "Version", "Source", "Changelog", "Preview" ] ) . "\n";
         $output .= $aTable->GetHLine( EXTAB_LINE_MID ) . "\n";
         $i = 0;
         foreach( $aFwList as $oFwItem )
         {
             $name = basename( $oFwItem->GetFileName() );
-            $info = "Info";
+            $info = "Show";
+            $view = "View";
             if( !ExtaTool::IsConsole() )
             {
-                $name = [ $name, "<a href='" . sprintf( "/firmware/?repo=%s&file=%s", $repo->GetName(), $name ) . "'>$name</a>" ];
-                $info = [ $info, "<a href='" . sprintf( "/changelog/?device=%s", $oFwItem->GetDevice() ) . "'>$info</a>" ];
+                $view = [ $view, "<a style='text-decoration: none' href='" . sprintf( "/firmware/?repo=%s&file=%s&text", $repo->GetName(), $name ) . "'>$view</a>" ];
+                $name = [ $name, "<a style='text-decoration: none' href='" . sprintf( "/firmware/?repo=%s&file=%s", $repo->GetName(), $name ) . "'>$name</a>" ];
+                $info = [ $info, "<a style='text-decoration: none' href='" . sprintf( "/changelog/?device=%s", $oFwItem->GetDevice() ) . "'>$info</a>" ];
             }
-            $output .= $aTable->GetILine( [ ++$i, $oFwItem->GetDevice(), $oFwItem->GetSize(), $oFwItem->GetVersionStr(), $name, $info ] ) . "\n";
+            $output .= $aTable->GetILine( [ ++$i, $oFwItem->GetDevice(), $oFwItem->GetSize(), $oFwItem->GetVersionStr(), $name, $info, $view ] ) . "\n";
         }
         $output .= $aTable->GetHLine( EXTAB_LINE_BOT ) . "\n";
 
+        if(!ExtaTool::IsConsole())
+        {
+            $output = "<div style='text-align: center'>$output</div>";
+        }
         ExtaTool::OutOut( $output );
-
         return true;
     }
 
