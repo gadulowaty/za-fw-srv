@@ -305,7 +305,12 @@ class ExtaChangelog extends ExtaContext
 
     private function HandlePrint() : bool
     {
-        $filename = $this->GetFilename( $this->_opts->ReadStr( "channel" ) );
+        $channel = $this->_opts->ReadStr( "channel" );
+        if( ( strcasecmp($channel, "release") != 0 ) && ( strcasecmp( $channel, "beta") != 0 ) )
+        {
+            $channel = "";
+        }
+        $filename = $this->GetFilename( $channel );
         $aDevices = $this->_opts->ReadArr("device");
         if( file_exists( $filename ) )
         {
