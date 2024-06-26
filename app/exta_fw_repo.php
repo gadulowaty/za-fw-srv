@@ -241,7 +241,14 @@ class ExtaFwRepo
                 $iSortOrd = strcmp( $ia->GetDevice(), $ib->GetDevice());
                 if($iSortOrd == 0 )
                 {
-                    $iSortOrd = ( ( $ib->GetVersion() & 0xFFFF00FF ) - ( $ia->GetVersion() & 0xFFFF00FF ) ) * $iDir;
+                    if( $this->_repo_opts->ver_by_name )
+                    {
+                        $iSortOrd = strcmp( $ib->GetFileName(), $ia->GetFileName()) * $iDir;
+                    }
+                    else
+                    {
+                        $iSortOrd = ( ( $ib->GetVersion() & 0xFFFF00FF ) - ( $ia->GetVersion() & 0xFFFF00FF ) ) * $iDir;
+                    }
                 }
                 return $iSortOrd;
             } );
