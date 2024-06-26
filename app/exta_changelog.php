@@ -265,7 +265,7 @@ class ExtaChangelog extends ExtaContext
                 $info = [];
                 for( $x = 0; $x < count( $version[ "info" ] ); $x++ )
                 {
-                    $info[] = [ "text" => $version[ "info" ][ $x ], "channel" => $version[ "info_src" ][ $x ] ];
+                    $info[] = [ "text" => str_replace( [ "( ", " )" ], [ "(", ")" ], $version[ "info" ][ $x ] ), "channel" => $version[ "info_src" ][ $x ] ];
                 }
                 $version[ "info" ] = $info;
                 unset( $version[ "info_src" ] );
